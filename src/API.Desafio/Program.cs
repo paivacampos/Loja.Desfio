@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace API.Loja.Desafio
+namespace API.Desafio
 {
     public class Program
     {

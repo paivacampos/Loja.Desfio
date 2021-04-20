@@ -2,19 +2,12 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
-    <UserSecretsId>aspnet-API.Loja.Desafio-F513A60A-CFC0-41D0-89F0-7CE026763A71</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="3.1.14" />
-    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.14" />
-    <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="3.1.14" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.14" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.14" />
-  </ItemGroup>
-
-  <ItemGroup>
+    <ProjectReference Include="..\Business.Desafio\Business.Desafio.csproj" />
     <ProjectReference Include="..\Data.Desafio\Data.Desafio.csproj" />
   </ItemGroup>
+
 
 </Project>
