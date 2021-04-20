@@ -1,9 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Business.Desafio.Interfaces;
 
 namespace Business.Desafio.Notificacoes
 {
-    public class Notificador
+    public class Notificador : INotificador
     {
         private List<Notificacao> _notificacoes;
 

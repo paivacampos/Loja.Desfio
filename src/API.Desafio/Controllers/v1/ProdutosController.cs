@@ -10,30 +10,30 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace API.Desafio.Controllers
 {
-    [Route("api/v1/lojas")]
-    public class LojasController : MainController
+    [Route("api/v1/produtos")]
+    public class ProdutosController : MainController
     {
-        private readonly ILojaRepository _LojaRepository;
+        private readonly IProdutoRepository _produtoRepository;
         private readonly IMapper _mapper;
 
-        public LojasController(ILojaRepository lojaRepository,
+        public ProdutosController(IProdutoRepository produtoRepository,
                                IMapper mapper,
                                INotificador notificador) : base(notificador)
         {
-            _LojaRepository = lojaRepository;
+            _produtoRepository = produtoRepository;
             _mapper = mapper;
         }
 
         /// <summary>
-        /// Listagem quado se tem multi lojas, exibe-se todas
+        /// Listagem quado se tem multi produtos, exibe-se todas
         /// </summary>
-        /// <returns>Retorna uma JSON com a lista de lojas cadastradas e seus respectivos dados</returns>
-        [HttpGet("listarLojas")]
-        public async Task<JsonResult> ListarTodasLojas()
+        /// <returns>Retorna uma JSON com a lista de produtos cadastradas e seus respectivos dados</returns>
+        [HttpGet("listarProdutos")]
+        public async Task<JsonResult> ListarTodos()
         {
             try
             {
-                var objLst = _mapper.Map<IEnumerable<LojaDto>>(await _LojaRepository.ObterTodos());
+                var objLst = _mapper.Map<IEnumerable<ProdutoDto>>(await _produtoRepository.ObterTodos());
                 return new JsonResult(new
                 {
                     success = true,
@@ -48,23 +48,23 @@ namespace API.Desafio.Controllers
                 {
                     success = false,
                     data = "",
-                    mensagem = "Não foi possível obter esta lista de lojas. Tente novamente depois.",
+                    mensagem = "Não foi possível obter esta lista de todos os produtos. Tente novamente depois.",
                     total = 0
                 });
             }
         }
 
         /// <summary>
-        /// Exibe os detalhes de uma loja pelo seu ID
+        /// Exibe os detalhes de uma produto pelo seu ID
         /// </summary>
-        /// <param name="id">ID da loja</param>
-        /// <returns>Retorna os dados da loja ou em branco caso não exista dados ou o ID seja inválido</returns>
-        [HttpGet("detalheLoja/{id:int}")]
-        public async Task<JsonResult> DetalheLojasId(int id)
+        /// <param name="id">ID do produto</param>
+        /// <returns>Retorna os dados do produto ou em branco caso não exista dados ou o ID seja inválido</returns>
+        [HttpGet("detalheProduto/{id:int}")]
+        public async Task<JsonResult> DetalheId(int id)
         {
             try
             {
-                var obj = ObterLojaId(id);
+                var obj = ObterProdutoId(id);
 
                 return new JsonResult(new
                 {
@@ -91,16 +91,16 @@ namespace API.Desafio.Controllers
         /// </summary>
         /// <param name="loja">Loja a ser adicionada</param>
         /// <returns>Retorna mensagem de confirmação da ação ou erro de algum dado inválido</returns>
-        [HttpPost("adicionarLoja")]
-        public async Task<JsonResult> AdicionarLojas(LojaDto loja)
+        [HttpPost("adicionarProduto")]
+        public async Task<JsonResult> Adicionar(ProdutoDto produto)
         {
             try
             {
-                if (!ModelState.IsValid) return (JsonResult)CustomResponse(loja);
+                if (!ModelState.IsValid) return (JsonResult)CustomResponse(produto);
 
-                await _LojaRepository.Adicionar(_mapper.Map<Loja>(loja));
+                await _produtoRepository.Adicionar(_mapper.Map<Produto>(produto));
 
-                return (JsonResult)CustomResponse(loja);
+                return (JsonResult)CustomResponse(produto);
             }
             catch (Exception e)
             {
@@ -120,22 +120,22 @@ namespace API.Desafio.Controllers
         /// <param name="id">ID da loja</param>
         /// <param name="loja">Entidade loja a ser alterada</param>
         /// <returns>Retorna mensagem de confirmação da ação ou erro de algum dado inválido</returns>
-        [HttpPut("alterarLoja/{id:int}")]
-        public async Task<JsonResult> AtualizarLoja(int id, LojaDto loja)
+        [HttpPut("alterarProduto/{id:int}")]
+        public async Task<JsonResult> Atualizar(int id, ProdutoDto produto)
         {
             try
             {
                 if (id != loja.Id)
                 {
                     NotificarErro("O id informado não é o mesmo que foi passado.");
-                    return (JsonResult)CustomResponse(loja);
+                    return (JsonResult)CustomResponse(produto);
                 }
 
                 if (!ModelState.IsValid) return (JsonResult)CustomResponse(ModelState);
 
-                await _LojaRepository.Atualizar(_mapper.Map<Loja>(loja));
+                await _produtoRepository.Atualizar(_mapper.Map<Produto>(produto));
 
-                return (JsonResult)CustomResponse(loja);
+                return (JsonResult)CustomResponse(produto);
             }
             catch (Exception e)
             {
@@ -159,23 +159,23 @@ namespace API.Desafio.Controllers
         {
             try
             {
-                var objLoja = await ObterLojaId(id);
+                var objLoja = await ObterProdutoId(id);
 
                 if (objLoja == null) return new JsonResult(new
                 {
                     success = false,
                     data = "",
-                    mensagem = "Não foi excluir a loja.",
+                    mensagem = "Não foi excluir o produto.",
                     total = 0
                 });
 
-                await _LojaRepository.Remover(id);
+                await _produtoRepository.Remover(id);
 
                 return new JsonResult(new
                 {
                     success = true,
                     data = "",
-                    mensagem = "Loja removida com sucesso.",
+                    mensagem = "Produto removido com sucesso.",
                     total = 0
                 });
             }
@@ -185,20 +185,20 @@ namespace API.Desafio.Controllers
                 {
                     success = false,
                     data = "",
-                    mensagem = "Não foi possível excluir a loja. Tente novamente depois.",
+                    mensagem = "Não foi possível excluir o produto. Tente novamente depois.",
                     total = 0
                 });
             }
         }
 
         /// <summary>
-        /// Retorna a entidade Loja
+        /// Retorna a entidade Produto
         /// </summary>
         /// <param name="id">Id cadastrado</param>
-        /// <returns>Retorna o objeto mapeado de loja</returns>
-        private async Task<LojaDto> ObterLojaId(int id)
+        /// <returns>Retorna o objeto mapeado de produto</returns>
+        private async Task<LojaDto> ObterProdutoId(int id)
         {
-            return _mapper.Map<LojaDto>(await _LojaRepository.ObterPorId(id));
+            return _mapper.Map<LojaDto>(await _produtoRepository.ObterPorId(id));
         }
     }
 }

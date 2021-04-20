@@ -10,7 +10,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using API.Desafio.Configuration;
 using AutoMapper;
+using Data.Desafio.Context;
+using Microsoft.EntityFrameworkCore;
 
 namespace API.Desafio
 {
@@ -25,8 +28,15 @@ namespace API.Desafio
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDbContext<DbAPIContext>(options =>
+            {
+                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
+            });
+
             services.AddAutoMapper(typeof(Startup));
-            
+
+            services.ResolveDependencies();
+
             services.AddControllers();
         }
 
