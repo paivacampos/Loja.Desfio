@@ -6,6 +6,5 @@ namespace Business.Desafio.Interfaces
 {
     public interface ILojaRepository : IRepository<Loja>
     {
-        Task<Estoque> ObterFornecedorProdutosEndereco(int id);
     }
 }
