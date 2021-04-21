@@ -14,44 +14,16 @@ namespace API.Desafio.Controllers
     public class LojasController : MainController
     {
         private readonly ILojaRepository _LojaRepository;
+        private readonly ILojaService _lojaService;
         private readonly IMapper _mapper;
 
         public LojasController(ILojaRepository lojaRepository,
                                IMapper mapper,
-                               INotificador notificador) : base(notificador)
+                               INotificador notificador, ILojaService lojaService) : base(notificador)
         {
             _LojaRepository = lojaRepository;
             _mapper = mapper;
-        }
-
-        /// <summary>
-        /// Listagem quado se tem multi lojas, exibe-se todas
-        /// </summary>
-        /// <returns>Retorna uma JSON com a lista de lojas cadastradas e seus respectivos dados</returns>
-        [HttpGet("listarLojas")]
-        public async Task<JsonResult> ListarTodasLojas()
-        {
-            try
-            {
-                var objLst = _mapper.Map<IEnumerable<LojaDto>>(await _LojaRepository.ObterTodos());
-                return new JsonResult(new
-                {
-                    success = true,
-                    data = objLst,
-                    mensagem = "",
-                    total = objLst.Count()
-                });
-            }
-            catch (Exception e)
-            {
-                return new JsonResult(new
-                {
-                    success = false,
-                    data = "",
-                    mensagem = "Não foi possível obter esta lista de lojas. Tente novamente depois.",
-                    total = 0
-                });
-            }
+            _lojaService = lojaService;
         }
 
         /// <summary>
@@ -98,7 +70,7 @@ namespace API.Desafio.Controllers
             {
                 if (!ModelState.IsValid) return (JsonResult)CustomResponse(loja);
 
-                await _LojaRepository.Adicionar(_mapper.Map<Loja>(loja));
+                await _lojaService.Adicionar(_mapper.Map<Loja>(loja));
 
                 return (JsonResult)CustomResponse(loja);
             }

@@ -9,7 +9,7 @@ namespace Business.Desafio.Service
     public class LojaService : BaseService, ILojaService
     {
         private readonly ILojaRepository _lojaRepository;
-
+        
 
         public LojaService(INotificador notificador, 
                            ILojaRepository lojaRepository) : base(notificador)
@@ -23,8 +23,8 @@ namespace Business.Desafio.Service
             {
                 if (_lojaRepository.Buscar(f => f.Cnpj.Equals(loja.Cnpj)).Result.Any())
                 {
-                    Notificar("Já existe uma loja com este CNPJ infomado.");
-                    return;
+                     Notificar("Já existe uma loja com este CNPJ infomado.");
+                     return;
                 }
 
                 await _lojaRepository.Adicionar(loja);

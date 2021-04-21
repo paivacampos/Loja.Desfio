@@ -1,5 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-using Business.Desafio.Interfaces;
+﻿using Business.Desafio.Interfaces;
 using Business.Desafio.Models;
 using Business.Desafio.Notificacoes;
 using FluentValidation;

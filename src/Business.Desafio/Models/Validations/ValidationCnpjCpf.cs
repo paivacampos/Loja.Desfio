@@ -1,5 +1,4 @@
 ﻿using Business.Desafio.Models.Validations.Utils;
-using Microsoft.VisualBasic.CompilerServices;
 using System.Linq;
 
 namespace Business.Desafio.Models.Validations

@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.Serialization.Formatters;
 using System.Threading.Tasks;
 using Business.Desafio.Interfaces;
 using Business.Desafio.Models;
