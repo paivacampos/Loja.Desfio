@@ -15,22 +15,22 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace API.Desafio.Controllers.v1
 {
+    
+    [Route("api/v1/usuarios")]
     public class AutenticacaoController : MainController
     {
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly UserManager<IdentityUser> _userManager;
         private readonly AppSettings _appSettings;
-        private readonly ILogger _logger;
+        
 
         public AutenticacaoController(INotificador notificador,
             SignInManager<IdentityUser> signInManager,
             UserManager<IdentityUser> userManager,
-            IOptions<AppSettings> appSettings,
-            IUser user, ILogger<AutenticacaoController> logger) : base(notificador, user)
+            IOptions<AppSettings> appSettings) : base(notificador)
         {
             _signInManager = signInManager;
             _userManager = userManager;
-            _logger = logger;
             _appSettings = appSettings.Value;
         }
 
@@ -69,7 +69,6 @@ namespace API.Desafio.Controllers.v1
 
             if (result.Succeeded)
             {
-                _logger.LogInformation("Usuario " + loginUser.Email + " logado com sucesso");
                 return CustomResponse(await GerarJwt(loginUser.Email));
             }
             if (result.IsLockedOut)

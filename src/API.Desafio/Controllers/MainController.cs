@@ -15,10 +15,10 @@ namespace API.Desafio.Controllers
         private readonly INotificador _notificador;
         public readonly IUser AppUser;
 
-        protected MainController(INotificador notificador, IUser appUser)
+        protected MainController(INotificador notificador)
         {
             _notificador = notificador;
-            AppUser = appUser;
+            
         }
 
         protected bool OperacaoValida()

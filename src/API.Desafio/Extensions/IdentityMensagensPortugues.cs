@@ -26,4 +26,3 @@ namespace API.Desafio.Extensions
         public override IdentityError PasswordRequiresUpper() { return new IdentityError { Code = nameof(PasswordRequiresUpper), Description = "Senhas devem conter ao menos um caracter em caixa alta ('A'-'Z')." }; }
     }
 }
-}
