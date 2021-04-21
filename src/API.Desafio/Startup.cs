@@ -1,19 +1,16 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using API.Desafio.Configuration;
 using AutoMapper;
 using Data.Desafio.Context;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Mvc.ApiExplorer;
+
+
+
 
 namespace API.Desafio
 {
@@ -27,8 +24,6 @@ namespace API.Desafio
             Configuration = configuration;
         }
 
-        
-
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<DbAPIContext>(options =>
@@ -40,28 +35,19 @@ namespace API.Desafio
 
             services.AddAutoMapper(typeof(Startup));
 
-            services.ResolveDependencies();
+            services.AddApiConfig();
 
-            services.AddControllers();
+            //services.AddSwaggerConfig();
+
+            services.ResolveDependencies();
         }
 
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IApiVersionDescriptionProvider provider)
         {
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
+            app.UseApiConfig(env);
 
-            app.UseHttpsRedirection();
+            //app.UseSwaggerConfig(provider);
 
-            app.UseRouting();
-
-            app.UseAuthorization();
-
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllers();
-            });
         }
     }
 }
