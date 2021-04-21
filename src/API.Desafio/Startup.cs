@@ -9,6 +9,7 @@ using Data.Desafio.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 
+
 namespace API.Desafio
 {
     public class Startup
@@ -44,16 +45,23 @@ namespace API.Desafio
 
             services.AddApiConfig();
 
-            //services.AddSwaggerConfig();
+            services.AddSwaggerGen();
 
             services.ResolveDependencies();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            app.UseSwagger();
+
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+            });
+
             app.UseApiConfig(env);
 
-            //app.UseSwaggerConfig(provider);
+            
 
         }
     }
