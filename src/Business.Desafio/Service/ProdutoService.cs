@@ -10,10 +10,14 @@ namespace Business.Desafio.Service
     public class ProdutoService : BaseService, IProdutoService
     {
         private readonly IProdutoRepository _produtoRepository;
+        private readonly IEstoqueRepository _estoqueRepository;
 
-        public ProdutoService(INotificador notificador, IProdutoRepository produtoRepository) : base(notificador)
+        public ProdutoService(INotificador notificador,
+                              IProdutoRepository produtoRepository,
+                              IEstoqueRepository estoqueRepository) : base(notificador)
         {
             _produtoRepository = produtoRepository;
+            _estoqueRepository = estoqueRepository;
         }
 
         public async Task Adicionar(Produto produto)
@@ -61,7 +65,8 @@ namespace Business.Desafio.Service
         {
             try
             {
-                if (_produtoRepository.ObterPorId(id).Result.EstoqueList.Any())
+                var produtoEstoque = await _estoqueRepository.ListarEstoqueProduto(id);
+                if (produtoEstoque != null)
                 {
                     Notificar("o Produto possui itens de estoque cadastrados cadastrados!");
                     return;

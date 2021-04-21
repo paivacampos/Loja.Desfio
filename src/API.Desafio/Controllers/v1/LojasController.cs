@@ -80,8 +80,5 @@ namespace API.Desafio.Controllers
             return CustomResponse(obj);
         }
 
-
-
-
     }
 }

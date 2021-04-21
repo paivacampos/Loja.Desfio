@@ -10,12 +10,13 @@ namespace Business.Desafio.Service
     public class LojaService : BaseService, ILojaService
     {
         private readonly ILojaRepository _lojaRepository;
-        
+        private readonly IEstoqueRepository _estoqueRepository;
 
         public LojaService(INotificador notificador, 
-                           ILojaRepository lojaRepository) : base(notificador)
+                           ILojaRepository lojaRepository, IEstoqueRepository estoqueRepository) : base(notificador)
         {
             _lojaRepository = lojaRepository;
+            _estoqueRepository = estoqueRepository;
         }
 
         public async Task Adicionar(Loja loja)
@@ -63,8 +64,8 @@ namespace Business.Desafio.Service
         {
             try
             {
-                var estoqueExiste = _lojaRepository.ObterPorId(id).Result.EstoqueList.Any();
-                if (estoqueExiste)
+                var estoqueLoja = await _estoqueRepository.ListarEstoqueLoja(id);
+                if (estoqueLoja.Count() > 0)
                 {
                     Notificar("A loja possui produtos cadastrados!");
                     return;

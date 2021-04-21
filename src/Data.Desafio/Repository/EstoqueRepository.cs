@@ -11,6 +11,15 @@ namespace Data.Desafio.Repository
     {
         public EstoqueRepository(DbAPIContext context) : base(context) { }
 
-        
+
+        public async Task<List<Estoque>> ListarEstoqueLoja(int id)
+        {
+            return Db.Estoques.Where(w => w.LojaId == id).ToList();
+        }
+
+        public async Task<Estoque> ListarEstoqueProduto(int id)
+        {
+            return Db.Estoques.FirstOrDefault(w => w.ProdutoId == id);
+        }
     }
 }
