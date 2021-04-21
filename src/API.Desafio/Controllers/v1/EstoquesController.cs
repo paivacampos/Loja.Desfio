@@ -48,7 +48,7 @@ namespace API.Desafio.Controllers
         {
             if (!ModelState.IsValid) return CustomResponse(ModelState);
             await _Estoqueservice.Adicionar(_mapper.Map<Estoque>(obj));
-
+            obj.UltimaAtualizacao = DateTime.Now;
             return CustomResponse(obj);
         }
 
@@ -62,7 +62,9 @@ namespace API.Desafio.Controllers
             }
 
             if (!ModelState.IsValid) return CustomResponse(ModelState);
-
+            
+            obj.UltimaAtualizacao = DateTime.Now;
+            
             await _Estoqueservice.Atualizar(_mapper.Map<Estoque>(obj));
 
             return CustomResponse(obj);
