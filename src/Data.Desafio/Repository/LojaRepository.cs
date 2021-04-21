@@ -10,9 +10,6 @@ namespace Data.Desafio.Repository
     {
         public LojaRepository(DbAPIContext context) : base(context) { }
 
-        public async Task<bool> LojaCnpjJaExiste(string cnpj)
-        {
-            return (Db.Lojas.FirstOrDefault(w => w.Cnpj.Equals(cnpj)) == null) ? true : false;
-        }
+        
     }
 }

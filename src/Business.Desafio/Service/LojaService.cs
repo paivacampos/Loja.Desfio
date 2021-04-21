@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using Business.Desafio.Interfaces;
 using System.Threading.Tasks;
 using Business.Desafio.Models;
@@ -19,40 +20,62 @@ namespace Business.Desafio.Service
 
         public async Task Adicionar(Loja loja)
         {
-            if (ExecutarValidacao(new LojaValidation(), loja))
+            try
             {
-                if (_lojaRepository.Buscar(f => f.Cnpj.Equals(loja.Cnpj)).Result.Any())
+                if (ExecutarValidacao(new LojaValidation(), loja))
                 {
-                     Notificar("Já existe uma loja com este CNPJ infomado.");
-                     return;
-                }
+                    if (_lojaRepository.Buscar(f => f.Cnpj.Equals(loja.Cnpj)).Result.Any())
+                    {
+                        Notificar("Já existe uma loja com este CNPJ infomado.");
+                        return;
+                    }
 
-                await _lojaRepository.Adicionar(loja);
+                    await _lojaRepository.Adicionar(loja);
+                }
+            }
+            catch (Exception e)
+            {
+                Notificar("Não foi possível realizar a operação no momento.");
             }
         }
 
         public async Task Atualizar(Loja loja)
         {
-            if (!ExecutarValidacao(new LojaValidation(), loja)) return;
-
-            if (_lojaRepository.Buscar(f => f.Cnpj.Equals(loja.Cnpj) && f.Id != loja.Id).Result.Any())
+            try
             {
-                Notificar("Já existe uma loja com este CNPJ infomado.");
-                return;
-            }
+                if (!ExecutarValidacao(new LojaValidation(), loja)) return;
 
-            await _lojaRepository.Atualizar(loja);
+                if (_lojaRepository.Buscar(f => f.Cnpj.Equals(loja.Cnpj) && f.Id != loja.Id).Result.Any())
+                {
+                    Notificar("Já existe uma loja com este CNPJ infomado.");
+                    return;
+                }
+
+                await _lojaRepository.Atualizar(loja);
+            }
+            catch (Exception e)
+            {
+                Notificar("Não foi possível realizar a operação no momento.");
+            }
         }
 
         public async Task Remover(int id)
         {
-            if (_lojaRepository.ObterPorId(id).Result.EstoqueList.Any())
+            try
             {
-                Notificar("A loja possui produtos cadastrados!");
-                return;
-            }
+                var estoqueExiste = _lojaRepository.ObterPorId(id).Result.EstoqueList.Any();
+                if (estoqueExiste)
+                {
+                    Notificar("A loja possui produtos cadastrados!");
+                    return;
+                }
 
-            await _lojaRepository.Remover(id);
+                await _lojaRepository.Remover(id);
+            }
+            catch (Exception e)
+            {
+                Notificar("A loja informada não está cadastrada!");
+            }
         }
 
         public void Dispose()

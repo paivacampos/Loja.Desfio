@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using Business.Desafio.Interfaces;
 using Business.Desafio.Models;
 using System.Threading.Tasks;
@@ -17,40 +18,61 @@ namespace Business.Desafio.Service
 
         public async Task Adicionar(Produto produto)
         {
-            if (ExecutarValidacao(new ProdutoValidation(), produto))
+            try
             {
-                if (_produtoRepository.Buscar(f => f.Nome.Equals(produto.Nome)).Result.Any())
+                if (ExecutarValidacao(new ProdutoValidation(), produto))
                 {
-                    Notificar("Já existe um Produto informado com este nome.");
-                    return;
-                }
+                    if (_produtoRepository.Buscar(f => f.Nome.Equals(produto.Nome)).Result.Any())
+                    {
+                        Notificar("Já existe um Produto informado com este nome.");
+                        return;
+                    }
 
-                await _produtoRepository.Adicionar(produto);
+                    await _produtoRepository.Adicionar(produto);
+                }
+            }
+            catch (Exception e)
+            {
+                Notificar("Não foi possível realizar a operação no momento.");
             }
         }
 
         public async Task Atualizar(Produto produto)
         {
-            if (!ExecutarValidacao(new ProdutoValidation(), produto)) return;
-
-            if (_produtoRepository.Buscar(f => f.Nome.Equals(produto.Nome) && f.Id != produto.Id).Result.Any())
+            try
             {
-                Notificar("Já existe um Produto informado com este nome informado.");
-                return;
-            }
+                if (!ExecutarValidacao(new ProdutoValidation(), produto)) return;
 
-            await _produtoRepository.Atualizar(produto);
+                if (_produtoRepository.Buscar(f => f.Nome.Equals(produto.Nome) && f.Id != produto.Id).Result.Any())
+                {
+                    Notificar("Já existe um Produto informado com este nome informado.");
+                    return;
+                }
+
+                await _produtoRepository.Atualizar(produto);
+            }
+            catch (Exception e)
+            {
+                Notificar("Não foi possível realizar a operação no momento.");
+            }
         }
 
         public async Task Remover(int id)
         {
-            if (_produtoRepository.ObterPorId(id).Result.EstoqueList.Any())
+            try
             {
-                Notificar("o Produto possui itens de estoque cadastrados cadastrados!");
-                return;
-            }
+                if (_produtoRepository.ObterPorId(id).Result.EstoqueList.Any())
+                {
+                    Notificar("o Produto possui itens de estoque cadastrados cadastrados!");
+                    return;
+                }
 
-            await _produtoRepository.Remover(id);
+                await _produtoRepository.Remover(id);
+            }
+            catch (Exception e)
+            {
+                Notificar("Não foi possível realizar a operação no momento.");
+            }
         }
 
         public void Dispose()

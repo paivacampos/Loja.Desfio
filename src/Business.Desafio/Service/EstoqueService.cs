@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Business.Desafio.Interfaces;
@@ -19,40 +20,61 @@ namespace Business.Desafio.Service
 
         public async Task Adicionar(Estoque estoque)
         {
-            if (ExecutarValidacao(new EstoqueValidation(), estoque))
+            try
             {
-                if (_estoqueRepository.Buscar(f => f.Id == estoque.Id).Result.Any())
+                if (ExecutarValidacao(new EstoqueValidation(), estoque))
                 {
-                    Notificar("Já existe um estoque informado para este produto.");
-                    return;
-                }
+                    if (_estoqueRepository.Buscar(f => f.Id == estoque.Id).Result.Any())
+                    {
+                        Notificar("Já existe um estoque informado para este produto.");
+                        return;
+                    }
 
-                await _estoqueRepository.Adicionar(estoque);
+                    await _estoqueRepository.Adicionar(estoque);
+                }
+            }
+            catch (Exception e)
+            {
+                Notificar("Não foi possível realizar a operação no momento.");
             }
         }
 
         public async Task Atualizar(Estoque estoque)
         {
-            if (_estoqueRepository.Buscar(f => f.Id != estoque.Id).Result.Any())
+            try
             {
-                Notificar("Já existe um estoque informado para este produto.");
-                return;
-            }
+                if (_estoqueRepository.Buscar(f => f.Id != estoque.Id).Result.Any())
+                {
+                    Notificar("Já existe um estoque informado para este produto.");
+                    return;
+                }
 
-            await _estoqueRepository.Atualizar(estoque);
+                await _estoqueRepository.Atualizar(estoque);
+            }
+            catch (Exception e)
+            {
+                Notificar("Não foi possível realizar a operação no momento.");
+            }
         }
 
         public async Task Remover(int id)
         {
-            IEnumerable<Estoque> estoqueLst = _estoqueRepository.Buscar(f => f.Id == id).Result.ToList();
-
-            if (!estoqueLst.Any())
+            try
             {
-                Notificar("Não existem item estoque a ser excluído.");
-                return;
-            }
+                IEnumerable<Estoque> estoqueLst = _estoqueRepository.Buscar(f => f.Id == id).Result.ToList();
 
-            await _estoqueRepository.Remover(id);
+                if (!estoqueLst.Any())
+                {
+                    Notificar("Não existem item estoque a ser excluído.");
+                    return;
+                }
+
+                await _estoqueRepository.Remover(id);
+            }
+            catch (Exception e)
+            {
+                Notificar("Não foi possível realizar a operação no momento.");
+            }
         }
 
         public void Dispose()
