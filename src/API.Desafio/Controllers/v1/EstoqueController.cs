@@ -10,48 +10,18 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace API.Desafio.Controllers
 {
-    [Route("api/v1/produtos")]
-    public class ProdutosController : MainController
+    [Route("api/v1/estoque")]
+    public class EstoqueController :MainController
     {
-        private readonly IProdutoRepository _produtoRepository;
+        private readonly IEstoqueRepository _estoqueRepository;
         private readonly IMapper _mapper;
 
-        public ProdutosController(IProdutoRepository produtoRepository,
-                               IMapper mapper,
-                               INotificador notificador) : base(notificador)
+        public EstoqueController(IEstoqueRepository estoqueRepository, 
+                                 IMapper mapper,
+                                 INotificador notificador) : base(notificador)
         {
-            _produtoRepository = produtoRepository;
+            _estoqueRepository = estoqueRepository;
             _mapper = mapper;
-        }
-
-        /// <summary>
-        /// Listagem quado se tem multi produtos, exibe-se todas
-        /// </summary>
-        /// <returns>Retorna uma JSON com a lista de produtos cadastradas e seus respectivos dados</returns>
-        [HttpGet("listarProdutos")]
-        public async Task<JsonResult> ListarTodos()
-        {
-            try
-            {
-                var objLst = _mapper.Map<IEnumerable<ProdutoDto>>(await _produtoRepository.ObterTodos());
-                return new JsonResult(new
-                {
-                    success = true,
-                    data = objLst,
-                    mensagem = "",
-                    total = objLst.Count()
-                });
-            }
-            catch (Exception e)
-            {
-                return new JsonResult(new
-                {
-                    success = false,
-                    data = "",
-                    mensagem = "Não foi possível obter esta lista de todos os produtos. Tente novamente depois.",
-                    total = 0
-                });
-            }
         }
 
         /// <summary>
@@ -59,7 +29,7 @@ namespace API.Desafio.Controllers
         /// </summary>
         /// <param name="id">ID do produto</param>
         /// <returns>Retorna os dados do produto ou em branco caso não exista dados ou o ID seja inválido</returns>
-        [HttpGet("detalheProduto/{id:int}")]
+        [HttpGet("detalheEstoqueProduto/{id:int}")]
         public async Task<JsonResult> DetalheId(int id)
         {
             try
@@ -92,15 +62,15 @@ namespace API.Desafio.Controllers
         /// <param name="loja">Loja a ser adicionada</param>
         /// <returns>Retorna mensagem de confirmação da ação ou erro de algum dado inválido</returns>
         [HttpPost("adicionarProduto")]
-        public async Task<JsonResult> Adicionar(ProdutoDto produto)
+        public async Task<JsonResult> Adicionar(EstoqueDto estoque)
         {
             try
             {
-                if (!ModelState.IsValid) return (JsonResult)CustomResponse(produto);
+                if (!ModelState.IsValid) return (JsonResult)CustomResponse(ModelState);
 
-                await _produtoRepository.Adicionar(_mapper.Map<Produto>(produto));
+                await _estoqueRepository.Adicionar(_mapper.Map<Estoque>(estoque));
 
-                return (JsonResult)CustomResponse(produto);
+                return (JsonResult)CustomResponse(estoque);
             }
             catch (Exception e)
             {
@@ -108,7 +78,7 @@ namespace API.Desafio.Controllers
                 {
                     success = false,
                     data = "",
-                    mensagem = "Não foi possível adidcionar a loja. Tente novamente depois.",
+                    mensagem = "Não foi possível adidcionar o estoque do produto na loja. Tente novamente depois.",
                     total = 0
                 });
             }
@@ -120,22 +90,22 @@ namespace API.Desafio.Controllers
         /// <param name="id">ID da loja</param>
         /// <param name="loja">Entidade loja a ser alterada</param>
         /// <returns>Retorna mensagem de confirmação da ação ou erro de algum dado inválido</returns>
-        [HttpPut("alterarProduto/{id:int}")]
-        public async Task<JsonResult> Atualizar(int id, ProdutoDto produto)
+        [HttpPut("alterarEstoqueProduto/{id:int}")]
+        public async Task<JsonResult> Atualizar(int id, EstoqueDto estoque)
         {
             try
             {
-                if (id != produto.Id)
+                if (id != estoque.Id)
                 {
                     NotificarErro("O id informado não é o mesmo que foi passado.");
-                    return (JsonResult)CustomResponse(produto);
+                    return (JsonResult)CustomResponse(estoque);
                 }
 
                 if (!ModelState.IsValid) return (JsonResult)CustomResponse(ModelState);
 
-                await _produtoRepository.Atualizar(_mapper.Map<Produto>(produto));
+                await _estoqueRepository.Atualizar(_mapper.Map<Estoque>(estoque));
 
-                return (JsonResult)CustomResponse(produto);
+                return (JsonResult)CustomResponse(ModelState);
             }
             catch (Exception e)
             {
@@ -150,32 +120,32 @@ namespace API.Desafio.Controllers
         }
 
         /// <summary>
-        /// Exclui uma loja
+        /// Exclui umestoque de produto
         /// </summary>
-        /// <param name="id">ID da loja a ser excluida</param>
+        /// <param name="id">ID do estoque</param>
         /// <returns>Retorna mensagem de confirmação da ação ou erro de algum dado inválido</returns>
-        [HttpDelete("excluirLoja/{id:int}")]
+        [HttpDelete("excluirEstoqueProduto/{id:int}")]
         public async Task<JsonResult> Excluir(int id)
         {
             try
             {
-                var objLoja = await ObterProdutoId(id);
+                var objEstoque = await ObterProdutoId(id);
 
-                if (objLoja == null) return new JsonResult(new
+                if (objEstoque == null) return new JsonResult(new
                 {
                     success = false,
                     data = "",
-                    mensagem = "Não foi excluir o produto.",
+                    mensagem = "Não foi excluir o estoque do produto.",
                     total = 0
                 });
 
-                await _produtoRepository.Remover(id);
+                await _estoqueRepository.Remover(id);
 
                 return new JsonResult(new
                 {
                     success = true,
                     data = "",
-                    mensagem = "Produto removido com sucesso.",
+                    mensagem = "Estoque do produto removido com sucesso.",
                     total = 0
                 });
             }
@@ -185,7 +155,7 @@ namespace API.Desafio.Controllers
                 {
                     success = false,
                     data = "",
-                    mensagem = "Não foi possível excluir o produto. Tente novamente depois.",
+                    mensagem = "Não foi possível excluir o estoque do produto. Tente novamente depois.",
                     total = 0
                 });
             }
@@ -198,7 +168,7 @@ namespace API.Desafio.Controllers
         /// <returns>Retorna o objeto mapeado de produto</returns>
         private async Task<LojaDto> ObterProdutoId(int id)
         {
-            return _mapper.Map<LojaDto>(await _produtoRepository.ObterPorId(id));
+            return _mapper.Map<LojaDto>(await _estoqueRepository.ObterPorId(id));
         }
     }
 }
