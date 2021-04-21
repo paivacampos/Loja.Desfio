@@ -66,7 +66,7 @@ namespace API.Desafio.Configuration
             }
             else
             {
-                app.UseCors("Development"); // Usar apenas nas demos => Configuração Ideal: Production
+                app.UseCors("Development"); // Usar apenas nas demos => Configuração Ideal: Production quando em produção
                 app.UseHsts();
             }
 
