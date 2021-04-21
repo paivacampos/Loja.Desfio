@@ -22,16 +22,15 @@ namespace Business.Desafio.Service
         {
             try
             {
-                if (ExecutarValidacao(new EstoqueValidation(), estoque))
-                {
-                    if (_estoqueRepository.Buscar(f => f.Id == estoque.Id).Result.Any())
-                    {
-                        Notificar("Já existe um estoque informado para este produto.");
-                        return;
-                    }
 
-                    await _estoqueRepository.Adicionar(estoque);
+                if (_estoqueRepository.Buscar(f => f.Id == estoque.Id).Result.Any())
+                {
+                    Notificar("Já existe um estoque informado para este produto.");
+                    return;
                 }
+                estoque.UltimaAtualizacao = DateTime.Now;
+                await _estoqueRepository.Adicionar(estoque);
+
             }
             catch (Exception e)
             {
@@ -49,6 +48,7 @@ namespace Business.Desafio.Service
                     return;
                 }
 
+                estoque.UltimaAtualizacao = DateTime.Now;
                 await _estoqueRepository.Atualizar(estoque);
             }
             catch (Exception e)
