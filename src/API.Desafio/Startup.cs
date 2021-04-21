@@ -19,12 +19,15 @@ namespace API.Desafio
 {
     public class Startup
     {
+
+        public IConfiguration Configuration { get; }
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
         }
 
-        public IConfiguration Configuration { get; }
+        
 
         public void ConfigureServices(IServiceCollection services)
         {
@@ -32,6 +35,8 @@ namespace API.Desafio
             {
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
             });
+
+            services.AddIdentityConfig(Configuration);
 
             services.AddAutoMapper(typeof(Startup));
 
