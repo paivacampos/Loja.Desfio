@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace API.Desafio.Controllers.v1
 {
-    [AllowAnonymous]
+    [Authorize]
     [Route("api/v1/lojas")]
     public class LojasController : MainController
     {

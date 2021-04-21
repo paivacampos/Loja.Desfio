@@ -3,10 +3,12 @@ using API.Desafio.DTO;
 using AutoMapper;
 using Business.Desafio.Interfaces;
 using Business.Desafio.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Desafio.Controllers.v1
 {
+    [Authorize]
     [Route("api/v1/produtos")]
     public class ProdutosController : MainController
     {
