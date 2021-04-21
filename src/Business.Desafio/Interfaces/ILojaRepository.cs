@@ -6,5 +6,6 @@ namespace Business.Desafio.Interfaces
 {
     public interface ILojaRepository : IRepository<Loja>
     {
+        public Task<bool> LojaCnpjJaExiste(string cnpj);
     }
 }
