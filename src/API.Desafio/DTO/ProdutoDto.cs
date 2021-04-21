@@ -12,6 +12,6 @@ namespace API.Desafio.DTO
         public string Nome { get; set; }
         public decimal ValorCompra { get; set; }
 
-        public IEnumerable<EstoqueDto> EstoqueList { get; set; }
+        
     }
 }

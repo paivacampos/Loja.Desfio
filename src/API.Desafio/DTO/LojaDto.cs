@@ -37,6 +37,6 @@ namespace API.Desafio.DTO
         [StringLength(2, ErrorMessage = "O campo {0} precisa ter  {1} caracteres")]
         public string Uf { get; set; }
 
-        public IEnumerable<EstoqueDto> EstoqueList { get; set; }
+        
     }
 }
