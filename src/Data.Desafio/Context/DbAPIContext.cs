@@ -6,7 +6,7 @@ namespace Data.Desafio.Context
 {
     public class DbAPIContext : DbContext
     {
-        public DbAPIContext(DbContextOptions options) : base(options) { }
+        public DbAPIContext(DbContextOptions<DbAPIContext> options) : base(options) { }
 
         public DbSet<Loja> Lojas { get; set; }
         public DbSet<Produto> Produtos { get; set; }
