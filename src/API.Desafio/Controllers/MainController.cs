@@ -13,10 +13,12 @@ namespace API.Desafio.Controllers
     public abstract class MainController : ControllerBase
     {
         private readonly INotificador _notificador;
+        public readonly IUser AppUser;
 
-        protected MainController(INotificador notificador)
+        protected MainController(INotificador notificador, IUser appUser)
         {
             _notificador = notificador;
+            AppUser = appUser;
         }
 
         protected bool OperacaoValida()

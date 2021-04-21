@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using API.Desafio.DTO;
 using AutoMapper;
 using Business.Desafio.Interfaces;
 using Business.Desafio.Models;
 using Microsoft.AspNetCore.Mvc;
 
-namespace API.Desafio.Controllers
+namespace API.Desafio.Controllers.v1
 {
     [Route("api/v1/produtos")]
     public class ProdutosController : MainController

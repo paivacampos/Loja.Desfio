@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace API.Desafio.DTO
 {
-    public class RegisterUserViewModel
+    public class RegisterUserDto
     {
         [Required(ErrorMessage = "O campo {0} é obrigatório")]
         [EmailAddress(ErrorMessage = "O campo {0} está em formato inválido")]
@@ -17,7 +17,7 @@ namespace API.Desafio.DTO
         public string ConfirmPassword { get; set; }
     }
 
-    public class LoginUserViewModel
+    public class LoginUserDto
     {
         [Required(ErrorMessage = "O campo {0} é obrigatório")]
         [EmailAddress(ErrorMessage = "O campo {0} está em formato inválido")]
@@ -28,21 +28,21 @@ namespace API.Desafio.DTO
         public string Password { get; set; }
     }
 
-    public class UserTokenViewModel
+    public class UserTokenDto
     {
         public string Id { get; set; }
         public string Email { get; set; }
-        public IEnumerable<ClaimViewModel> Claims { get; set; }
+        public IEnumerable<ClaimDto> Claims { get; set; }
     }
 
-    public class LoginResponseViewModel
+    public class LoginResponseDto
     {
         public string AccessToken { get; set; }
         public double ExpiresIn { get; set; }
-        public UserTokenViewModel UserToken { get; set; }
+        public UserTokenDto UserToken { get; set; }
     }
 
-    public class ClaimViewModel
+    public class ClaimDto
     {
         public string Value { get; set; }
         public string Type { get; set; }
