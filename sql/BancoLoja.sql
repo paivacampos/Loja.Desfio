@@ -57,7 +57,7 @@ CREATE INDEX [IX_Estoques_ProdutoId] ON [Estoques] ([ProdutoId]);
 GO
 
 INSERT INTO [__EFMigrationsHistory] ([MigrationId], [ProductVersion])
-VALUES (N'20210420155424_InicitalIdentity', N'3.1.14');
+VALUES (N'20210421212612_InitialMigration', N'3.1.14');
 
 GO
 

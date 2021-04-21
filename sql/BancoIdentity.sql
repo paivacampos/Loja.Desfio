@@ -63,8 +63,8 @@ CREATE TABLE [AspNetUserClaims] (
 GO
 
 CREATE TABLE [AspNetUserLogins] (
-    [LoginProvider] nvarchar(128) NOT NULL,
-    [ProviderKey] nvarchar(128) NOT NULL,
+    [LoginProvider] nvarchar(450) NOT NULL,
+    [ProviderKey] nvarchar(450) NOT NULL,
     [ProviderDisplayName] nvarchar(max) NULL,
     [UserId] nvarchar(450) NOT NULL,
     CONSTRAINT [PK_AspNetUserLogins] PRIMARY KEY ([LoginProvider], [ProviderKey]),
@@ -85,8 +85,8 @@ GO
 
 CREATE TABLE [AspNetUserTokens] (
     [UserId] nvarchar(450) NOT NULL,
-    [LoginProvider] nvarchar(128) NOT NULL,
-    [Name] nvarchar(128) NOT NULL,
+    [LoginProvider] nvarchar(450) NOT NULL,
+    [Name] nvarchar(450) NOT NULL,
     [Value] nvarchar(max) NULL,
     CONSTRAINT [PK_AspNetUserTokens] PRIMARY KEY ([UserId], [LoginProvider], [Name]),
     CONSTRAINT [FK_AspNetUserTokens_AspNetUsers_UserId] FOREIGN KEY ([UserId]) REFERENCES [AspNetUsers] ([Id]) ON DELETE CASCADE
@@ -123,12 +123,7 @@ CREATE UNIQUE INDEX [UserNameIndex] ON [AspNetUsers] ([NormalizedUserName]) WHER
 GO
 
 INSERT INTO [__EFMigrationsHistory] ([MigrationId], [ProductVersion])
-VALUES (N'00000000000000_CreateIdentitySchema', N'3.1.14');
-
-GO
-
-INSERT INTO [__EFMigrationsHistory] ([MigrationId], [ProductVersion])
-VALUES (N'20210420155215_InicitalIdentity', N'3.1.14');
+VALUES (N'20210421212450_InitialIdentiyMigration', N'3.1.14');
 
 GO
 
