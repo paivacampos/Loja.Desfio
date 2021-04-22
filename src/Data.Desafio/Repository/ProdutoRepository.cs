@@ -13,5 +13,13 @@ namespace Data.Desafio.Repository
         {
             return (Db.Produtos.FirstOrDefault(w => w.Nome.Equals(nome)) == null) ? true : false;
         }
+        
+        public override async Task Remover(int id)
+        {
+            var objRemove = Db.Produtos.AsNoTracking().FirstOrDefault(w => w.Id == id);
+            Db.Entry(objRemove).State = EntityState.Deleted;
+            Db.Produtos.Remove(objRemove);
+            await SaveChanges();
+        }
     }
 }
