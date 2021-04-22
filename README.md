@@ -64,6 +64,7 @@ Para executar locamente a aplicação deve-se
 7.4 - Para recriar: Add-Migration -Verbose -Context DbAPIContext PrimeiraMigrationIdentity
 
 *Tem que ser colocado o  nome do contexto, pois, utilizo separadamente do Identity.
+
 **Coloquei os scripts do banco para análise dos relacionamentos, conforme solicitado no desafio, aconcelho que se faça o processo via Entity de criação do banco e de tabelas, o banco fornecido também pode ser utilizado, pois não ocorreu nenhuma alteração do schema, a versão que eu utilizei foi a 2017 Express
 
 Com os passos acima feitos está pronto para se rodar a aplicação localmente, via visual studio, pode-se também fazer um deploy em um servidor IIS
