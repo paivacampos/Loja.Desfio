@@ -10,7 +10,7 @@ namespace Data.Desafio.Repository
     {
         public LojaRepository(DbAPIContext context) : base(context) { }
 
-         public override async Task Remover(int id)
+        public override async Task Remover(int id)
         {
             var objRemove = Db.Lojas.AsNoTracking().FirstOrDefault(w => w.Id == id);
             Db.Entry(objRemove).State = EntityState.Deleted;
