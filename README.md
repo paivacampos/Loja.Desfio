@@ -65,6 +65,6 @@ Para executar locamente a aplicação deve-se
 
 *Tem que ser colocado o  nome do contexto, pois, utilizo separadamente do Identity.
 
-Com os passos acima feitos está pronto para se rodar a aplicação localmente.
+Com os passos acima feitos está pronto para se rodar a aplicação localmente, via visual studio, pode-se também fazer um deploy em um servidor IIS
 
 
