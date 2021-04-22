@@ -21,5 +21,13 @@ namespace Data.Desafio.Repository
         {
             return Db.Estoques.FirstOrDefault(w => w.ProdutoId == id);
         }
+        
+        public override async Task Remover(int id)
+        {
+            var objRemove = Db.Estoques.AsNoTracking().FirstOrDefault(w => w.Id == id);
+            Db.Entry(objRemove).State = EntityState.Deleted;
+            Db.Estoques.Remove(objRemove);
+            await SaveChanges();
+        }
     }
 }
