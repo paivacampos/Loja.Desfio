@@ -1,6 +1,18 @@
 # Loja.Desfio
 API REST Para Loja
 #
+
+Requisitos para o funcionamento:
+.NET Core 3.1.14
+https://dotnet.microsoft.com/download/dotnet/3.1
+SQL-Server (Express)
+https://www.microsoft.com/pt-br/sql-server/sql-server-downloads
+
+Descritivo do sistema:
+ASP.NET Core 3.1.14
+Bancdo de dados SQL-SERVER Express
+
+#
 Requisitos para o funcionamento:
 
 .NET Core 3.1.14
@@ -68,5 +80,6 @@ Para executar locamente a aplicação deve-se
 **Coloquei os scripts do banco para análise dos relacionamentos, conforme solicitado no desafio, aconcelho que se faça o processo via Entity de criação do banco e de tabelas, o banco fornecido também pode ser utilizado, pois não ocorreu nenhuma alteração do schema, a versão que eu utilizei foi a 2017 Express
 
 Com os passos acima feitos está pronto para se rodar a aplicação localmente, via visual studio, pode-se também fazer um deploy em um servidor IIS
+
 
 
