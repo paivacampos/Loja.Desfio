@@ -53,4 +53,18 @@ Para executar locamente a aplicação deve-se
 
 6.4 - Atualize o banco de dados com o commando: Update-Database -Verbose -Context DbAPIContext
 
+7 - Se for de interesse, pode-s apagar as migrations já criadas
+
+7.1 - Em API do identity : 20210421212450_InitialIdentiyMigration.cs e ApplicationDbContextModelSnapshot.cs
+
+7.2 - Para recriar: Add-Migration -Verbose -Context ApplicationDbContext PrimeiraMigrationIdentity
+
+7.3 - Em Data.Desafio da API : 20210421212612_InitialMigration.cs e DbAPIContextModelSnapshot.cs
+
+7.4 - Para recriar: Add-Migration -Verbose -Context DbAPIContext PrimeiraMigrationIdentity
+
+*Tem que ser colocado o  nome do contexto, pois, utilizo separadamente do Identity.
+
 Com os passos acima feitos está pronto para se rodar a aplicação localmente.
+
+
